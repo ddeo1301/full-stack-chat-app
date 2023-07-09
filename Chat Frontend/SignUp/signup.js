@@ -2,13 +2,13 @@ async function signup(event) {
     try{
         event.preventDefault();
         const obj = {
-            name:event.target.name.value,
-            email:event.target.email.value,
-            phone:event.target.phone.value,
-            password:event.target.password.value
+            name: event.target.name.value,
+            email: event.target.email.value,
+            phone: event.target.phone.value,
+            password: event.target.password.value
         }
         
-     const response= await axios.post('http://localhost:5000/user/signup',obj)
+        const response= await axios.post('http://localhost:5000/user/signup',obj)
         if(response.status=201){
             window.location.href="../Login/login.html"
             alert ("Successfull Signup")
@@ -18,8 +18,7 @@ async function signup(event) {
             throw new Error('failed to signup')
         }
 
-        }
-    catch(err){
+    }catch(err){
         alert("User alredy Exist");
         document.body.innerHTML=`<div style="color:red;">${err}</div>`;
     }
