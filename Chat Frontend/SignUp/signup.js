@@ -18,7 +18,7 @@ async function signup(event) {// async keyword allows the use of await keyword i
         // keyword is used to wait for the response to be received before proceeding
         console.log(response);
 
-        if(response.status = 201){// indicate successful signup. window.location assumes that the user is in web environment
+        if(response.status = 201){//indicate successful signup. window.location assumes that user is in web environment
             alert ("Successfull Signup")
             window.location.href="../Login/login.html"// change the page on successful login
             console.log(response);
