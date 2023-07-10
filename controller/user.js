@@ -12,11 +12,18 @@ const jwt = require('jsonwebtoken');//used for generating and verifying JSON Web
         return false
 }
 
-const signup = async (req , res)=>{// asynchronous function receiving req, res as parameters, that is likely
+exports.signup = async (req , res)=>{// asynchronous function receiving req, res as parameters, that is likely
     // a route handler function in a server-side application
+    console.log(req.body)
     try{
         const{name, email, phone, password} = req.body; // destructing assignment used to extract name, email, 
         // password, phone properties from req.body which are expexted to sent the request body
+        console.log(req.body);
+        const registereduser= await User.findOne({where :{email}});
+        
+        if(registereduser){
+                 return res.status(200).json({message:"This email is already present so try login"});
+        }
 
         if(isstringinvalid(name) || isstringinvalid(email) || isstringinvalid(phone) || isstringinvalid(password)){
             // if any of three is invalid, it returns a response with status 400(Bad Request) and JSON object 
@@ -28,16 +35,14 @@ const signup = async (req , res)=>{// asynchronous function receiving req, res a
         bcrypt.hash(password, saltrounds, async(err , hash)=>{ // bcrypt.hash is called to generate a hash of the
         //password using the provided salt rounds. it passes a callback function that takes err and hash as parameters
             console.log(err);
-            await User.create({name, email, password:hash})// User.create function is use to create new user in
+            await User.create({name, email, phone, password:hash})// User.create function is use to create new user in
             // database. it uses name, email and 'hashed' password values. await keyword is used before User.create 
             // to wait for the asynchronous operation to complete before proceeding
             res.status(201).json({message:"Succesfully created new user"})
         })
     } catch(err){
-        res.status(500).json(err);//internal server error
+        console.log(err);
+        await t.rollback()
+        res.status(500).json({error: err});//internal server error
      }
-}
-
-module.exports = {
-    signup
 }

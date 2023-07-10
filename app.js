@@ -27,7 +27,9 @@ const userRoutes = require('./routes/user');//imports various route modules that
 
 const app = express();//create an express application
 
-app.use(cors());
+app.use(cors({
+    origin:"http://localhost:3000"
+}));
 app.use(bodyParser.json({ extended: false })); //sets up the necessary middleware to parse incoming request
 // bodies, including handling forms
 app.use(express.json());  //this is for handling jsons payloads
@@ -37,7 +39,7 @@ app.use('/user', userRoutes);// routing for different API endpoints using app.us
 
 sequelize.sync()// synchronizes the database models with the database using sequelize.sync() and starts the
     .then(() => {// server on port 3000 using app.listen(3000).
-        app.listen(2500);
+        app.listen(5000);
     })
     .catch(err => {
         console.log(err);

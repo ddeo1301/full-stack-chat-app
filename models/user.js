@@ -10,16 +10,26 @@ const User = sequelize.define('user', { // sequelize.define is used to define ne
         primaryKey: true
     },
 
-    name: Sequelize.STRING,
-    email: {
-       type:  Sequelize.STRING,
-       allowNull: false,
-       unique: true
+    name: {
+        type: Sequelize.STRING,
+
+    },
+
+    phone:{
+        type: Sequelize.STRING,
+        allowNull: true,
     },
     
-    phone: Sequelize.INTEGER,
+    email:{
+        type:Sequelize.STRING,
+        allowNull:false,
+    },
 
-    password: Sequelize.STRING,
+    password:{
+        type:Sequelize.STRING,
+        allowNull:false
+    }
+    
 })
 
 module.exports = User;

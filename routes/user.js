@@ -1,7 +1,10 @@
 const express = require('express');
-const router = express.Router();
-const userController = require('../controller/user');
+const userController = require('../controller/user'); // imports module
 
-router.post('/signup', userController.signup);
+const router = express.Router(); // create new router object
 
-module.exports = router;
+router.post('/signup', userController.signup); // /signup is associated with UserController.signup
+//  controller is called when a POST request is made to the corresponding endpoints
+
+module.exports = router; // router object is exported as a module, makeing it available for use in other parts of the application
+// code setsup routes for user signup and login endpoints
