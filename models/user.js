@@ -23,6 +23,7 @@ const User = sequelize.define('user', { // sequelize.define is used to define ne
     email:{
         type:Sequelize.STRING,
         allowNull:false,
+        unique: true
     },
 
     password:{

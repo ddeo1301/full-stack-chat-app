@@ -12,7 +12,7 @@ const dotenv = require('dotenv');//load environment variables from a .env file i
 dotenv.config();//loads the environment variables from the .env file in the current working directory and adds
 //them to the process.env object
 
-var cors = require('cors')//cross origin resource sharing.AlgAlg origin se jo request aa rhi use access de dena
+const cors = require('cors')//cross origin resource sharing.AlgAlg origin se jo request aa rhi use access de dena
 //enforce security policies and prevent unauthorized access to resources.
 
 const sequelize = require('./util/database');//sets up the connection to DB using sequelize, an ORM for Node.js
@@ -28,7 +28,9 @@ const userRoutes = require('./routes/user');//imports various route modules that
 const app = express();//create an express application
 
 app.use(cors({
-    origin:"http://localhost:3000"
+    origin:"*",
+    credentials:true,
+    methods: "GET, POST, PUT, DELETE"
 }));
 app.use(bodyParser.json({ extended: false })); //sets up the necessary middleware to parse incoming request
 // bodies, including handling forms
