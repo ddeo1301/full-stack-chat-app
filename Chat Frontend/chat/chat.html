@@ -27,18 +27,15 @@
 </head>
 
 <body>
-    <h2>Chat App</h2>
-    <div class="container">
-       <div class="row">
+    <h2>Group chat app</h2>
+    <div class="container" id="show-msg"></div>
+       <div class="row" >
            <div class="col-md-11">
               <input type="text" class="form-control" id="chat-input" placeholder="Type your message here...">
+              <button class="btn btn-success" id="send" onclick="sendMessage()">Send</button>     
             </div>
-        
-            <div class="col-md">
-                <button class="btn btn-success" id="send" onclick="sendMessage(event)">Send</button>          
-            </div>   
-        </div>
-    </div>
+        </div> 
+    <script src="chat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"></script> 
 </body>
-<script src="chat.js"></script>
 </html>

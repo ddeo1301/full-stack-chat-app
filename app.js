@@ -20,11 +20,12 @@ const sequelize = require('./util/database');//sets up the connection to DB usin
      //relational databases, providing a higher level of abstraction and productivity for developers. It helps 
      //reduce the complexity of database operations, improves code maintainability, and enables database independence
 
-const User = require('./models/user');// imports and associates the models with their respective 
-     //imports and associates the models with their respective relationships using Sequelize associations.
+const User = require('./models/user');////imports and associates the models with their respective relationships
+const chat = require("./models/chat");
 
+const chatRoute = require('./routes/chat');
 const userRoutes = require('./routes/user');//imports various route modules that handle different API endpoints.
-const loginRoutes = require('./routes/user');
+const loginRoutes = require('./routes/user');// using Sequelize associations.
 
 const app = express();//create an express application
 
@@ -40,10 +41,14 @@ app.use(express.json());  //this is for handling jsons payloads
 
 app.use('/user', userRoutes);// routing for different API endpoints using app.use.
 app.use('/user',loginRoutes);
+app.use('/user', chatRoute);
+
+User.hasMany(chat)
+chat.belongsTo(User)
 
 sequelize.sync()// synchronizes the database models with the database using sequelize.sync() and starts the
     .then(() => {// server on port 3000 using app.listen(3000).
-        app.listen(5000);
+        app.listen(3000);
     })
     .catch(err => {
         console.log(err);

@@ -5,6 +5,13 @@ const bcrypt = require('bcrypt');//used for hashing and comparing passwords in N
 const jwt = require('jsonwebtoken');//used for generating and verifying JSON Web Tokens(JWTs) in Node.js applications.
  //JWTs are compact and self-contained way of securely transmitting information between parties as JSON object.
 
+
+ function generateAccessToken(id,Name,Email){
+    console.log("token",Name,id,Email)
+    return  jwt.sign({id:id,Name:Name,Email:Email},'SecretKey')
+  }
+
+
  function isstringinvalid(string){
     if(string == undefined ||string.length === 0)
         return true
@@ -47,42 +54,41 @@ const signup = async (req , res)=>{// asynchronous function receiving req, res a
      }
 }
 
-const generateAccessToken = (id, name) => {
-    return jwt.sign({ userId : id, name: name} ,'secretkey');
-}
 
 const login = async (req, res) => { // login fn receives request and response as parameters indicating as 
-    // route handler function in a server side application
+                   //route handler function in a server side application
     try{
        const { email, password } = req.body; // destructing assignment used to extract 'email' and 'password'
-       //  from req.body. these properties are expected to sent in the request body
+            //from req.body. these properties are expected to sent in the request body
 
        if(isstringinvalid(email) || isstringinvalid(password)){ // if email or password is incorrect then it  
-       // will return a response with a status 400(bad request) and JSON object containing a message and  
-       // succeess properties indicating the failure    
-        return res.status(400).json({message: 'EMail id or password is missing ', success: false})
+             // will return a response with a status 400(bad request) and JSON object containing a message and  
+             // succeess properties indicating the failure    
+            return res.status(400).json({message: 'EMail id or password is missing ', success: false})
        }
 
     console.log(password);
     const user  = await User.findAll({ where : { email }}) // User.findAll is called to find users with the
-    // provided email. it is like ORM(object relational mapping) library like sequelize. await keyword is 
-    // used to wait for the asynchronous operation to complete and return the result
+          //provided email. it is like ORM(object relational mapping) library like sequelize. await keyword is 
+         // used to wait for the asynchronous operation to complete and return the result
 
         if(user.length > 0){
             // compare the provided password with stores hash password using bcrypt.compare. It passes callback
             // function that takes an error(err) and result as parameter
            bcrypt.compare(password, user[0].password, (err, result) => {
-           if(err){
-             throw new Error('Sometng went wrong')
-           }
+               if(err){
+                   throw new Error('Sometng went wrong')
+               }
 
-            if(result === true){
-                return res.status(200).json({success: true, message: "User logged in successfully", token: generateAccessToken(user[0].id, user[0].name)})
-            }
-            else{
-               return res.status(400).json({success: false, message: 'Password is incorrect'})
-           }
-        })
+                 if(result === true){
+                     return res.status(200).json({
+                        success: true, message: "User logged in successfully", 
+                        token: generateAccessToken(user[0].id, user[0].name, user[0].email)
+                    })
+                 }else{
+                       return res.status(400).json({success: false, message: 'Password is incorrect'})
+                   }
+             })
         } else {
             return res.status(404).json({success: false, message: 'User Doesnot exist'})
         }

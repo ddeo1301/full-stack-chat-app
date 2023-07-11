@@ -1,7 +1,7 @@
 const express = require('express');
-const userController = require('../controller/user'); // imports module
-
 const router = express.Router(); // create new router object
+const userController = require('../controller/user'); // imports module
+const auth=require('../middleware/auth');
 
 router.post('/signup', userController.signup);//signup is associated with UserController.signup controller is
 router.post('/login', userController.login);//called when a POST request is made to the corresponding endpoints

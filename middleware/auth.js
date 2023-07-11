@@ -1,28 +1,24 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
-const authenticate = (req, res, next) => {
+exports.authentication= async (req,res,next)=>{
+  try{
+      //extract token from request header.Token is provided in 'Authorization' header
+      const token=req.header('Authorization');
 
-    try {
-        const token = req.header('Authorization');//extract token from request header.Token is provided in 'Authorization' header
-        console.log(token);
-        const user = jwt.verify(token, 'secretkey');//here token is varified where secret key used to sign JWT
-        console.log('userID >>>> ', user.userId);
-        
-        User.findByPk(user.userId).then(user => {//to find user in database using retrieved userID
-            req.user = user; //If user is found then user object is assigned to req.user, allowing the user 
-            //information to be accessed in subsequent middleware/route handlers.
-            next();// called to pass control to the next middleware/route handler.
-        }).catch(err => { throw new Error(err)})
+      const user=jwt.verify(token , "secrectkey");//here token is varified where secret key used to sign JWT
 
-      } catch(err) {
-        console.log(err);
-        return res.status(401).json({success: 'false'})
-        
-      }
+      //to find user in database using retrieved userID.If user is found then user object is assigned to
+      // req.user, allowing the user information to be accessed in subsequent middleware/route handlers. 
+      // called to pass control to the next middleware/route handler.
+      const userDetail=await User.findByPk(user.userId);
+      req.user=userDetail;
+      next();
+  }
+  catch(err){
+      console.log(err);
+      return res.status(500).json({success:false});
+  }
 }
 
-module.exports = {
-    authenticate//exported to be used where authentication is required. 
-}
 //this middleware ensures that only authenticated request with valid JWT can acceess the protected route

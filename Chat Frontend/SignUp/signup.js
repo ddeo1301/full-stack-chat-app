@@ -13,7 +13,7 @@ async function signup(event) {// async keyword allows the use of await keyword i
         }
 
         console.log(obj)
-        const response= await axios.post('http://localhost:5000/user/signup', obj);
+        const response= await axios.post('http://localhost:3000/user/signup', obj);
         // send POST request to "ht..." endpoint with signupDetails object as the request body. await 
         // keyword is used to wait for the response to be received before proceeding
         console.log(response);

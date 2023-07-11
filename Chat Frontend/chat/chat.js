@@ -1,17 +1,23 @@
-function sendMessage(event) {
-    event.preventDefault();//prevent the page from reloading
-    let message = document.getElementById("chat-input").value;//value are extracted
+async function sendMessage(){
+  try{
+      const token=localStorage.getItem('token');
+      const msg=document.getElementById('chat-input').value;
+      obj = {
+          msg
+      }
 
-    let obj = {
-      message: message,
-    };
-
-    const token = localStorage.getItem("token");// retrieves token stored in loclstorage with key "token"
-
-    axios.post("http://localhost:5000/user/message", obj, { headers: { Authorization: token }})
-       .then((response) => {
-           alert("Message Sent");
-       }).catch((err) => {
-           console.log(err);
-      });
+      const response=  await axios.post('http://localhost:3000/chat/sendmessage',obj, {headers:{'Authorization' : token}});
+      showMessageOnScreen(response.data)
+      console.log(response.data)
   }
+  catch(err){
+      console.log(err);
+  }
+
+}
+
+function showMessageOnScreen(response){
+  const parentNode = document.getElementById('show-msg');
+  const showMessage = `<div class="message">${response.username} :  ${response.msg}</div>`
+  parentNode.innerHTML += showMessage;
+}
