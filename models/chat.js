@@ -1,14 +1,13 @@
 const Sequelize = require('sequelize');
-const sequelize = require('../util/database');
+const sequelize = require('../util/database')
 
-const Message = sequelize.define('chat',{
+const Chat = sequelize.define('chat', {
     id:{
         type: Sequelize.INTEGER,
-        primaryKey: true,
         autoIncrement: true,
-        allowNull: false
+        allowNull: false,
+        primaryKey:true
     },
-    msg : Sequelize.STRING
-});
-
-module.exports = Message;
+    message:Sequelize.STRING
+})
+ module.exports = Chat;

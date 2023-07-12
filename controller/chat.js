@@ -1,20 +1,18 @@
-const Message = require('../models/chat');
+const Chat = require('../models/chat')
 
-exports.sendMessage = async (req,res,next) => {
-    try {
-      const { msg } = req.body;
-      console.log(msg)
+exports.postChat = async (req,res,next)=>{
+    try{
+        const message = req.body.message
+        console.log(message)
 
-      // if (msg == undefined || msg.length === 0) {
-      //   return res.status(400).json({ err: "Parameters Missing" });
-      // } else {
-        await Message.create({ msg, userId:req.user.id });
-        console.log("message sent from controller")
-        res.status(200).json({ success:true , username:req.user.name , msg:msg});
-      //}
-
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ err: "Something went wrong" });
+        const chat = await req.user.createChat({
+            message:message
+        })
+        res.status(200).json({success:true, message:'sent sucessfully'})
     }
-  }
+    catch(err){
+        console.log(err)
+        res.status(500).json({success:false, message:'something went wrong'})
+    }
+
+}

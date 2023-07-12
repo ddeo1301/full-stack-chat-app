@@ -1,8 +1,6 @@
-async function signup(event) {// async keyword allows the use of await keyword inside the function body
-    // function receives event object 'e' as parameter
+async function signup(event) {
     try{
-        event.preventDefault();// prevents the default form submission behaviour, which allows
-        // to handle the form submission manually using javascript
+        event.preventDefault();
         console.log(event.target.name.value)
 
         const obj = {
@@ -14,13 +12,11 @@ async function signup(event) {// async keyword allows the use of await keyword i
 
         console.log(obj)
         const response= await axios.post('http://localhost:3000/user/signup', obj);
-        // send POST request to "ht..." endpoint with signupDetails object as the request body. await 
-        // keyword is used to wait for the response to be received before proceeding
         console.log(response);
 
-        if(response.status = 201){//indicate successful signup. window.location assumes that user is in web environment
+        if(response.status = 201){
             alert ("Successfull Signup")
-            window.location.href="../Login/login.html"// change the page on successful login
+            window.location.href="../Login/login.html"
             console.log(response);
         }
         else{

@@ -7,8 +7,8 @@ const jwt = require('jsonwebtoken');//used for generating and verifying JSON Web
 
 
  function generateAccessToken(id,Name,Email){
-    console.log("token",Name,id,Email)
-    return  jwt.sign({id:id,Name:Name,Email:Email},'SecretKey')
+    console.log("token", Name, id, Email)
+    return  jwt.sign({id:id, Name:Name, Email:Email},'SecretKey')
   }
 
 

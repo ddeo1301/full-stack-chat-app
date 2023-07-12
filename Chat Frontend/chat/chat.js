@@ -1,23 +1,18 @@
-async function sendMessage(){
-  try{
-      const token=localStorage.getItem('token');
-      const msg=document.getElementById('chat-input').value;
-      obj = {
-          msg
-      }
+const form = document.getElementById('messageForm');
+form.addEventListener('submit',postMessage)
 
-      const response=  await axios.post('http://localhost:3000/chat/sendmessage',obj, {headers:{'Authorization' : token}});
-      showMessageOnScreen(response.data)
-      console.log(response.data)
-  }
-  catch(err){
-      console.log(err);
-  }
+async function postMessage(e){
+    try{
+        e.preventDefault();
+        const token = localStorage.getItem('token')
+        const message = document.getElementById('message').value;
+        const obj = {message};
+        
+        const response = await axios.post('http://localhost:3000/chat/send',obj, {headers:{'Authorization':token}})
+        console.log(response)
+    }
+    catch(err){
+        console.log(err)
 
-}
-
-function showMessageOnScreen(response){
-  const parentNode = document.getElementById('show-msg');
-  const showMessage = `<div class="message">${response.username} :  ${response.msg}</div>`
-  parentNode.innerHTML += showMessage;
+    }
 }
